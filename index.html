@@ -1,0 +1,153 @@
+<html ng-app="testAngular">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="app/css/master.css">
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="app/scripts/app.js"></script>
+  </head>
+  <body ng-controller="MainCtrl">
+    <div class="col-sm-12">
+      <h1>Angular Test - Retail Program</h1>
+    </div>
+    <hr class="col-sm-12">
+
+    <div class="col-sm-12">
+      <h3>List of Customers :</h3><br>
+      <div class="col-sm-8">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Over Two Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="customer in customers">
+              <td>{{customer.id}}</td>
+              <td>{{customer.name}}</td>
+              <td>{{customer.type}}</td>
+              <td><span ng-if="customerInfo = customer.over_two_year == true? 'Yes': 'No'">{{customerInfo}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="col-md-12">
+    <div class="col-sm-12">
+      <h3>List of Items :</h3><br>
+      <div class="col-sm-10">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Item Name</th>
+              <th>Type</th>
+              <th>Capacity</th>
+              <th>Price</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="item in items">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.type}}</td>
+              <td>{{item.capacity}}</td>
+              <td class="text-right">{{item.price | currency : "$ " : 2}}</td>
+              <td><button type="button" class="btn btn-primary" name="button" ng-click="addItem(item)">Add</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <hr class="col-sm-12">
+    <div class="col-sm-12">
+      <h3>List of Shops :</h3><br>
+
+      <div class="form-group">
+        <label for="selector">Select Customer :</label>
+        <div class="row">
+          <div class="col-sm-6">
+            <select class="form-control" name="selector" ng-model="selector" ng-options="customer as customer.name for customer in customers track by customer.id"
+            ng-change="changeDiscount(selector)">
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>List Item :</label>
+        <div class="row">
+          <div class="col-sm-8">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Item Name</th>
+                  <th>Type</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="shop in shops">
+                  <td>{{shop.name}}</td>
+                  <td>{{shop.type}}</td>
+                  <td class="text-right">{{shop.price | currency : "$ " : 2}}</td>
+                  <td><button type="button" class="btn btn-danger" name="button" ng-click="deleteItem(shop)">Remove</button></td>
+                </tr>
+                <tr ng-show="!shops.length">
+                  <td colspan="4" class="text-center">NO SHOP CART</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <hr class="col-sm-8">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Total :</label>
+        </div>
+        <div class="col-sm-2">
+          <span class="pull-right">{{totalPrice | currency : "$ " : 2}}</span>
+        </div>
+      </div>
+      <hr class="col-sm-8">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Discount (%) :</label>
+        </div>
+        <div class="col-sm-2">
+          <span class="pull-right">{{percenDiscount | number : 0}} %</span>
+        </div>
+      </div>
+      <hr class="col-sm-8">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Discount ($) :</label>
+        </div>
+        <div class="col-sm-2">
+          <span class="pull-right">{{priceDiscount | currency : "$ " : 2}}</span>
+        </div>
+      </div>
+      <hr class="col-sm-8">
+      <div class="row">
+        <div class="col-sm-6">
+          <label>Total After Discount :</label>
+        </div>
+        <div class="col-sm-2">
+          <span class="pull-right">{{totalAfterDiscount | currency : "$ " : 2}}</span>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
